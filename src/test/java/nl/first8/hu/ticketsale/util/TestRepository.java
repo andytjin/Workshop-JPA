@@ -8,7 +8,8 @@ import nl.first8.hu.ticketsale.venue.Concert;
 import nl.first8.hu.ticketsale.venue.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import nl.first8.hu.ticketsale.Artist.Genre;
+import nl.first8.hu.ticketsale.Artist.Artist;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -64,8 +65,8 @@ public class TestRepository {
     public Concert createDefaultConcert(String artist, String locationName) {
         Location location = createLocation(locationName);
         Concert concert = new Concert();
-        concert.setArtist(artist);
-        concert.setGenre("Grindcore");
+        Artist concertArtist = new Artist(artist, Genre.HIPHOP);
+        concert.setArtist(concertArtist);
         concert.setLocation(location);
         entityManager.persist(concert);
         return concert;
@@ -73,11 +74,11 @@ public class TestRepository {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public Concert createConcert(String artist, String genre, String locationName) {
+    public Concert createConcert(String artist, Genre genre, String locationName) {
         Location location = createLocation(locationName);
         Concert concert = new Concert();
-        concert.setArtist(artist);
-        concert.setGenre(genre);
+        Artist concertArtist = new Artist(artist, genre);
+        concert.setArtist(concertArtist);
         concert.setLocation(location);
         entityManager.persist(concert);
         return concert;
@@ -90,6 +91,15 @@ public class TestRepository {
         location.setName(locationName);
         entityManager.persist(location);
         return location;
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+     private Artist createArtist(String artistName, Genre genre) {
+            Artist artist = new Artist();
+            artist.setNaam(artistName);
+            artist.setGenre(genre);
+            entityManager.persist(artist);
+           return artist;
     }
 
 

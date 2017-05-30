@@ -9,8 +9,10 @@ CREATE TABLE concert (
   artist VARCHAR(255) NOT NULL,
   genre VARCHAR(255) NOT NULL,
   location_id BIGINT NOT NULL,
+  date DATE DEFAULT,
   PRIMARY KEY(id),
-  FOREIGN KEY (location_id) REFERENCES location(id)
+  FOREIGN KEY (location_id) REFERENCES location(id),
+  FOREIGN KEY (artist) REFERENCES  artist(artist)
 );
 
 DELETE FROM ticket;
