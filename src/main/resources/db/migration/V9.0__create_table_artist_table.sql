@@ -1,5 +1,5 @@
 CREATE TABLE artist(
   naam VARCHAR(255) NOT NULL,
-  genre ENUM('HIPHOP','RandB'),
+  genre INT NOT NULL,
   CONSTRAINT pk_artist PRIMARY KEY(naam)
 );

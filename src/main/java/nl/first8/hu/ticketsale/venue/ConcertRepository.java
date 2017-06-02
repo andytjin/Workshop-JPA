@@ -3,6 +3,7 @@ package nl.first8.hu.ticketsale.venue;
 /**
  * Created by andy on 30-5-2017.
  */
+import nl.first8.hu.ticketsale.Artist.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
@@ -30,7 +31,8 @@ public class ConcertRepository {
     }
 
     public List<Concert> findByGenre(String genre) {
-        String jpql = "SELECT concert FROM Concert concert WHERE concert.artist.genre = :genre";
+        int genreToInt = Genre.valueOf(genre.toUpperCase()).ordinal();
+        String jpql = "SELECT concert FROM Concert concert WHERE concert.artist.genre = "+genreToInt;
         TypedQuery<Concert> query = entityManager.createQuery(jpql, Concert.class);
         query.setParameter("genre", genre);
         return query.getResultList();

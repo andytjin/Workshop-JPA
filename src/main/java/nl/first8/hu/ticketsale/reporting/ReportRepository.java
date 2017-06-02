@@ -1,5 +1,6 @@
 package nl.first8.hu.ticketsale.reporting;
 
+import nl.first8.hu.ticketsale.Artist.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,9 +19,10 @@ public class ReportRepository {
     }
 
     public List<LocationReport> findGenreLocations(String genre) {
+        int genreToInt = Genre.valueOf(genre.toUpperCase()).ordinal();
         String jpql = "SELECT DISTINCT NEW nl.first8.hu.ticketsale.reporting.LocationReport(t.concert.artist, t.concert.location.name, t.account.info.city) " +
                 "FROM Ticket t " +
-                "WHERE t.concert.artist.genre = :genre";
+                "WHERE t.concert.artist.genre = "+genreToInt;
         TypedQuery<LocationReport> query = entityManager.createQuery(jpql, LocationReport.class);
        return query.getResultList();
     }
